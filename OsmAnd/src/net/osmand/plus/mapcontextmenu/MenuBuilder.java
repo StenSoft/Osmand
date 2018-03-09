@@ -464,6 +464,10 @@ public class MenuBuilder {
 		firstRow = false;
 	}
 
+	public void setFirstRow(boolean firstRow) {
+		this.firstRow = firstRow;
+	}
+
 	public View buildRow(View view, int iconId, String buttonText, String text, int textColor,
 							boolean collapsable, final CollapsableView collapsableView,
 							boolean needLinks, int textLinesLimit, boolean isUrl, OnClickListener onClickListener, boolean matchWidthDivider) {

@@ -99,83 +99,18 @@ public class FavouritePointMenuBuilder extends MenuBuilder {
 		}
 	}
 
-	private void buildDescriptionRow(final View view, final String description, int textColor,
-	                                 int textLinesLimit, boolean matchWidthDivider) {
-		if (!isFirstRow()) {
-			buildRowDivider(view);
-		}
-		LinearLayout baseView = new LinearLayout(view.getContext());
-		baseView.setOrientation(LinearLayout.VERTICAL);
-		LinearLayout.LayoutParams llBaseViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-		baseView.setLayoutParams(llBaseViewParams);
-
-		LinearLayout ll = new LinearLayout(view.getContext());
-		ll.setOrientation(LinearLayout.HORIZONTAL);
-		LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-		ll.setLayoutParams(llParams);
-		ll.setBackgroundResource(AndroidUtils.resolveAttribute(view.getContext(), android.R.attr.selectableItemBackground));
-		ll.setOnLongClickListener(new View.OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				copyToClipboard(description, view.getContext());
-				return true;
-			}
-		});
-
-		baseView.addView(ll);
-
-		// Text
-		LinearLayout llText = new LinearLayout(view.getContext());
-		llText.setOrientation(LinearLayout.VERTICAL);
-		ll.addView(llText);
-
-		TextView textPrefixView = null;
-		textPrefixView = new TextView(view.getContext());
-		LinearLayout.LayoutParams llTextParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-		llTextParams.setMargins(dpToPx(16f), dpToPx(8f), 0, 0);
-		textPrefixView.setLayoutParams(llTextParams);
-		textPrefixView.setTextSize(12);
-		textPrefixView.setTextColor(app.getResources().getColor(R.color.ctx_menu_buttons_text_color));
-		textPrefixView.setEllipsize(TextUtils.TruncateAt.END);
-		textPrefixView.setMinLines(1);
-		textPrefixView.setMaxLines(1);
-		textPrefixView.setText(app.getResources().getString(R.string.description));
-		llText.addView(textPrefixView);
-
-		TextView textView = new TextView(view.getContext());
-		LinearLayout.LayoutParams llTextParams2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-		llTextParams2.setMargins(dpToPx(16f), dpToPx(2f), 0, dpToPx(8f));
-		textView.setLayoutParams(llTextParams2);
-		textView.setTextSize(16);
-		textView.setTextColor(app.getResources().getColor(light ? R.color.ctx_menu_bottom_view_text_color_light : R.color.ctx_menu_bottom_view_text_color_dark));
-		textView.setText(description);
-
-		textView.setEllipsize(TextUtils.TruncateAt.END);
-		if (textLinesLimit > 0) {
-			textView.setMinLines(1);
-			textView.setMaxLines(textLinesLimit);
-		}
-		if (textColor > 0) {
-			textView.setTextColor(view.getResources().getColor(textColor));
-		}
-		llText.addView(textView);
-
-
-		LinearLayout.LayoutParams llTextViewParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
-		llTextViewParams.weight = 1f;
-		llTextViewParams.setMargins(0, 0, dpToPx(10f), 0);
-		llTextViewParams.gravity = Gravity.CENTER_VERTICAL;
-		llText.setLayoutParams(llTextViewParams);
-
-		((LinearLayout) view).addView(baseView);
-		rowBuilt();
-		setDividerWidth(matchWidthDivider);
-	}
-
 	private void buildDescription(View view) {
 		String desc = fav.getDescription();
 		if (!Algorithms.isEmpty(desc)) {
-			buildDescriptionRow(view, desc, 0, 5, true);
+			if (originObject != null && originObject instanceof Amenity) {
+				AmenityMenuBuilder builder = new AmenityMenuBuilder(mapActivity, (Amenity) originObject);
+				rowBuilt();
+				setDividerWidth(true);
+				builder.setFirstRow(true);
+				builder.buildRow(view, null, desc, app.getResources().getString(R.string.description),
+						false, null, R.color.searchbar_text_light, false, true, false,
+						false, false, true, 0);
+			}
 		}
 	}
 
