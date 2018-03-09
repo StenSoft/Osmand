@@ -104,12 +104,12 @@ public class FavouritePointMenuBuilder extends MenuBuilder {
 		if (!Algorithms.isEmpty(desc)) {
 			if (originObject != null && originObject instanceof Amenity) {
 				AmenityMenuBuilder builder = new AmenityMenuBuilder(mapActivity, (Amenity) originObject);
-				rowBuilt();
 				setDividerWidth(true);
 				builder.setFirstRow(true);
 				builder.buildRow(view, null, desc, app.getResources().getString(R.string.description),
 						false, null, R.color.searchbar_text_light, false, true, false,
 						false, false, true, 0);
+				buildAfter(view);
 			}
 		}
 	}
