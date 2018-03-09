@@ -58,7 +58,9 @@ public class AmenityMenuBuilder extends MenuBuilder {
 	public AmenityMenuBuilder(MapActivity mapActivity, final Amenity amenity) {
 		super(mapActivity);
 		this.amenity = amenity;
-		setShowNearestWiki(true, amenity.getId());
+		if (amenity != null) {
+			setShowNearestWiki(true, amenity.getId());
+		}
 	}
 
 	@Override
